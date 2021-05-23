@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.0/css/bulma.min.css">
 
     <script src="https://kit.fontawesome.com/e4dcc57e5d.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="styles/debug.css">
+
+    <!-- uncomment to debug -->
+    <!-- <link rel="stylesheet" href="styles/debug.css"> -->
+
     <style>
         .is-paddingless-horizontal {
             padding-left: 0;
@@ -17,7 +20,7 @@
 
         @media (max-width: 672px) {
             :root {
-                font-size: 75%;
+                font-size: 70%;
             }
         }
     </style>
@@ -67,40 +70,63 @@
     <!-- /.section -->
 
     <!-- /.section -->
-    <section class="section" style="padding-top: 0; padding:2rem;">
-        <div class="container">
-            <div class="columns">
-                <div class="column" id="grid" style="width: 768px;">
+    <section class="section" style="padding-top: 0; ">
+        <div class="container is-fluid">
+            <div class="columns is-desktop">
+                <div class="column ">
                     <div class="notification ">
-                        <div id="b" class="center-column">
-                            <p class="title ">
-                                <i class="fas fa-hand-holding-usd" style="width: 0.75em; height: 0.75em;"></i>
-                                1.9<span class="is-size-5">s</span>
+                        <div class="center-column">
+                            <p class="subtitle  is-size-6 has-text-weight-semibold ">People who owe you
                             </p>
-                            <p class="subtitle  is-6">0-60 mph</p>
+                            <p class="title is-size-3 has-text-info">
+                                9
+                                <!-- <span class="is-size-7 has-text-weight-light has-text-grey-dark"> people</span> -->
+                            </p>
                         </div>
                     </div>
                 </div>
-                <div class="column" id="grid" style="width: 768px;">
-                    <div class="notification center-column">
-                        <!-- <div id="b" class="center-column"> -->
-                        <p class="title ">
-                            <i class="fas fa-piggy-bank" style="width: 0.75em; height: 0.75em;"></i>
-                            1.9<span class="is-size-5">s</span>
-                        </p>
-                        <p class="subtitle  is-6">0-60 mph</p>
-                        <!-- </div> -->
+                <div class="column">
+                    <div class="notification ">
+                        <div class="center-column">
+                            <p class="subtitle  is-size-6 has-text-weight-semibold ">People you owe
+                            </p>
+                            <p class="title is-size-3 has-text-info">4
+                                <!-- <span class="is-size-7 has-text-weight-light has-text-grey-dark"> people</span> -->
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div class="column" id="grid" style="width: 768px;">
-                    <div class="notification center-column">
-                        <!-- <div id="b" class="center-column"> -->
-                        <p class="title ">
-                            <i class="fas fa-file-invoice-dollar" style="width: 0.75em; height: 0.75em;"></i>
-                            1.9<span class="is-size-5">s</span>
-                        </p>
-                        <p class="subtitle  is-6">0-60 mph</p>
-                        <!-- </div> -->
+                <div class="column ">
+                    <div class="notification ">
+                        <div class="center-column">
+                            <p class="subtitle  is-size-6 has-text-weight-semibold ">Total transactions
+                            </p>
+                            <p class="title is-size-3 has-text-info">
+                                16<span class="is-size-7 has-text-weight-light has-text-grey-dark"> (this month)</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="column ">
+                    <div class="notification ">
+                        <div class="center-column">
+                            <p class="subtitle  is-size-6 has-text-weight-semibold ">Budget left
+                            </p>
+                            <p class="title is-size-3 has-text-info">$200
+                                <span class="is-size-7 has-text-weight-light has-text-grey-dark"> (this month)</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="column ">
+                    <div class="notification ">
+                        <div class="center-column">
+                            <p class="subtitle  is-size-6 has-text-weight-semibold ">Expenses
+                            </p>
+                            <p class="title is-size-3 has-text-info">$2,345
+                                <span class="is-size-7 has-text-weight-light has-text-grey-dark"> (this year)</span>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
