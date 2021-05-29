@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- /. budget progress bar-->
     <section class="section" style="padding-top: 0">
       <div class="container">
         <h2
@@ -23,9 +24,11 @@
         </progress>
       </div>
     </section>
+    <!-- /. budget progress bar-->
+
     <!-- /.information cards-->
     <section class="section" style="padding-top: 0">
-      <div class="container is-fluid">
+      <div class="container">
         <div class="columns is-desktop">
           <div class="column">
             <div class="notification">
@@ -179,22 +182,21 @@
     </section>
     <!-- /.transaction history-->
 
+    <!-- /.bar chart-->
+    <!-- @todo: make chart scrollable for mobile decvices -->
     <section class="section" style="padding-top: 0">
       <div class="container">
         <div class="columns is-desktop is-centered">
-          <div class="chartWrapper">
-            <div class="chartAreaWrapper">
-              <chart
-                id="chart"
-                :type="'bar'"
-                :data="data"
-                :options="options"
-              ></chart>
-            </div>
-          </div>
+          <chart
+            id="chart"
+            :type="'bar'"
+            :data="data"
+            :options="options"
+          ></chart>
         </div>
       </div>
     </section>
+    <!-- /.bar chart-->
   </div>
 </template>
 
@@ -218,6 +220,7 @@ a {
   padding-left: 0;
   padding-right: 0;
 }
+
 /* .chartWrapper {
   position: relative;
 }
@@ -236,7 +239,7 @@ a {
 
 @media (max-width: 672px) {
   :root {
-    font-size: 70%;
+    font-size: 60%;
   }
 }
 </style>
