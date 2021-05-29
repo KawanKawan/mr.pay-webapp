@@ -130,9 +130,7 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-a {
-  color: #42b983;
-}
+
 .is-paddingless-horizontal {
   padding-left: 0;
   padding-right: 0;

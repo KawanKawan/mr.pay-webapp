@@ -2,11 +2,11 @@
   <div id="app">
     <div id="nav">
       <!-- .navbar -->
-      <section class="section">
+      <section class="section" style="padding-top: 1em">
         <nav class="navbar" role="navigation" aria-label="main navigation">
           <div class="navbar-brand">
             <router-link to="/">
-              <img src="@/assets/mrpay.png" width="90" height="150" />
+              <img src="@/assets/mrpay.png" class="image is-64x64" />
               <!-- @todo change to our own logo -->
             </router-link>
 

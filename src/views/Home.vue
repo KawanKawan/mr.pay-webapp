@@ -1,5 +1,28 @@
 <template>
   <div>
+    <section class="section" style="padding-top: 0">
+      <div class="container">
+        <h2
+          class="
+            subtitle
+            is-4
+            has-text-weight-semibold has-text-blac has-text-left
+          "
+        >
+          Budget
+        </h2>
+        <p class="title is-size-4 has-text-info has-text-left">
+          $150.40<span
+            class="is-size-6 has-text-weight-light has-text-grey-dark"
+          >
+            left for this month</span
+          >
+        </p>
+        <progress class="progress is-small is-info" value="45" max="100">
+          45%
+        </progress>
+      </div>
+    </section>
     <!-- /.information cards-->
     <section class="section" style="padding-top: 0">
       <div class="container is-fluid">
@@ -87,7 +110,7 @@
 
     <!-- /.transaction history-->
     <section class="section" style="padding-top: 0">
-      <div class="container is-fluid">
+      <div class="container">
         <h2 class="subtitle is-4 has-text-weight-semibold has-text-black">
           Transaction History
         </h2>
@@ -155,6 +178,23 @@
       </div>
     </section>
     <!-- /.transaction history-->
+
+    <section class="section" style="padding-top: 0">
+      <div class="container">
+        <div class="columns is-desktop is-centered">
+          <div class="chartWrapper">
+            <div class="chartAreaWrapper">
+              <chart
+                id="chart"
+                :type="'bar'"
+                :data="data"
+                :options="options"
+              ></chart>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -178,6 +218,21 @@ a {
   padding-left: 0;
   padding-right: 0;
 }
+/* .chartWrapper {
+  position: relative;
+}
+
+.chartWrapper > chart {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+} */
+
+.chartAreaWrapper {
+  width: 1000px;
+  overflow-x: scroll;
+}
 
 @media (max-width: 672px) {
   :root {
@@ -188,9 +243,58 @@ a {
 
 <script>
 // @ is an alias to /src
+import Chart from "vue-bulma-chartjs";
 
 export default {
   name: "Home",
-  components: {},
+  components: {
+    Chart,
+  },
+
+  data() {
+    return {
+      data: {
+        labels: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ],
+        datasets: [
+          {
+            label: "Income",
+            data: [90, 40, 50, 70, 90, 40, 50, 70, 90, 40, 50, 70],
+            backgroundColor: "#7792bd",
+          },
+          {
+            label: "Expense",
+
+            data: [50, 70, 40, 80, 50, 70, 40, 80, 50, 70, 40, 80],
+            backgroundColor: "#a1b2d1",
+          },
+        ],
+      },
+      options: {
+        segmentShowStroke: false,
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+      },
+    };
+  },
 };
 </script>
