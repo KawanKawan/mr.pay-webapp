@@ -247,12 +247,8 @@ a {
 <script>
 // @ is an alias to /src
 import Chart from "vue-bulma-chartjs";
-import { db } from "./db";
 
 export default {
-  firestore: {
-    documents: db.collection("payment"),
-  },
   name: "Home",
   components: {
     Chart,
@@ -261,7 +257,6 @@ export default {
   data() {
     return {
       data: {
-        payment: [],
         labels: [
           "Jan",
           "Feb",

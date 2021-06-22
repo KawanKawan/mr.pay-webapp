@@ -14,8 +14,7 @@
     "firebase": "^8.6.8",
     "vue": "^2.6.11",
     "vue-bulma-chartjs": "^1.0.5",
-    "vue-router": "^3.2.0",
-    "vuefire": "^2.2.5"
+    "vue-router": "^3.2.0"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
