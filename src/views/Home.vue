@@ -13,12 +13,16 @@
           Budget
         </h2>
         <p class="title is-size-4 has-text-info has-text-left">
-          $ {{ this.user.budget
+          $ {{ this.budgetLeft()[1]
           }}<span class="is-size-6 has-text-weight-light has-text-grey-dark">
             left for this month</span
           >
         </p>
-        <progress class="progress is-small is-info" value="45" max="100">
+        <progress
+          class="progress is-small is-info"
+          :value="budgetBar"
+          max="100"
+        >
           45%
         </progress>
       </div>
@@ -75,10 +79,10 @@
             <div class="notification">
               <div class="center-column">
                 <p class="subtitle is-size-6 has-text-weight-semibold">
-                  Budget left
+                  Total Spent
                 </p>
                 <p class="title is-size-3 has-text-info">
-                  $200
+                  $ {{ this.budgetLeft()[0] }}
                   <span
                     class="is-size-7 has-text-weight-light has-text-grey-dark"
                   >
@@ -306,6 +310,11 @@ export default {
     this.getPayment();
     this.getUser();
   },
+  computed: {
+    budgetBar() {
+      return this.budgetLeft()[2];
+    },
+  },
   methods: {
     paymentNotReceived() {
       var total = 0;
@@ -322,6 +331,23 @@ export default {
         if (!this.payment[i].completed) {
           total++;
         }
+      }
+      return total;
+    },
+    budgetLeft() {
+      var amount = 0;
+      var total = [];
+      for (var i = 0; i < this.payment.length; i++) {
+        if (this.payment[i].completed) {
+          amount += this.payment[i].amount;
+          console.log(amount);
+        }
+      }
+      total[0] = amount;
+      total[1] = parseFloat(this.user.budget) - amount;
+      total[2] = (total[0] / parseFloat(this.user.budget)) * 100;
+      if (total[1] < 0) {
+        total[1] = 0;
       }
       return total;
     },
@@ -350,7 +376,7 @@ export default {
     async getUser() {
       try {
         const response = await fetch(
-          `http://localhost:3000/user/12345678`,
+          `http://localhost:3000/user/1078844444`,
 
           {
             method: "GET",
