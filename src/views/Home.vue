@@ -13,9 +13,8 @@
           Budget
         </h2>
         <p class="title is-size-4 has-text-info has-text-left">
-          $150.40<span
-            class="is-size-6 has-text-weight-light has-text-grey-dark"
-          >
+          $ {{ this.user.budget
+          }}<span class="is-size-6 has-text-weight-light has-text-grey-dark">
             left for this month</span
           >
         </p>
@@ -37,7 +36,7 @@
                   People who owe you
                 </p>
                 <p class="title is-size-3 has-text-info">
-                  9
+                  {{ this.paymentNotReceived() }}
                   <!-- <span class="is-size-7 has-text-weight-light has-text-grey-dark"> people</span> -->
                 </p>
               </div>
@@ -50,7 +49,7 @@
                   People you owe
                 </p>
                 <p class="title is-size-3 has-text-info">
-                  4
+                  {{ this.peopleOwed() }}
                   <!-- <span class="is-size-7 has-text-weight-light has-text-grey-dark"> people</span> -->
                 </p>
               </div>
@@ -63,11 +62,11 @@
                   Total transactions
                 </p>
                 <p class="title is-size-3 has-text-info">
-                  16<span
+                  {{ this.payment.length + this.paymentToReceive.length
+                  }}<span
                     class="is-size-7 has-text-weight-light has-text-grey-dark"
                   >
-                    (this month)</span
-                  >
+                  </span>
                 </p>
               </div>
             </div>
@@ -96,7 +95,7 @@
                   Expenses
                 </p>
                 <p class="title is-size-3 has-text-info">
-                  $2,345
+                  {{ this.payment.name }}
                   <span
                     class="is-size-7 has-text-weight-light has-text-grey-dark"
                   >
@@ -256,6 +255,10 @@ export default {
 
   data() {
     return {
+      searching: true,
+      payment: {},
+      paymentToReceive: {},
+      user: {},
       data: {
         labels: [
           "Jan",
@@ -298,6 +301,75 @@ export default {
         },
       },
     };
+  },
+  created() {
+    this.getPayment();
+    this.getUser();
+  },
+  methods: {
+    paymentNotReceived() {
+      var total = 0;
+      for (var i = 0; i < this.paymentToReceive.length; i++) {
+        if (!this.paymentToReceive[i].completed) {
+          total++;
+        }
+      }
+      return total;
+    },
+    peopleOwed() {
+      var total = 0;
+      for (var i = 0; i < this.payment.length; i++) {
+        if (!this.payment[i].completed) {
+          total++;
+        }
+      }
+      return total;
+    },
+    async getPayment() {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/payment/1078844444`,
+
+          {
+            method: "GET",
+          }
+        ).then((response) => response.json());
+        this.payment = response.payment;
+        this.paymentToReceive = response.paymentToReceive;
+        console.log(this.paymentToReceive[3].payload);
+        // if (!response.ok) throw new Error(response.error);
+        // Set response onto search_result obj of this vue component for auto UI update
+        // Remove loader once search result is received
+        this.searching = false;
+      } catch (error) {
+        this.searching = false;
+        console.error(error);
+        alert("Something went wrong!");
+      }
+    },
+    async getUser() {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/user/12345678`,
+
+          {
+            method: "GET",
+          }
+        ).then((response) => response.json());
+        console.log("hahaha");
+        this.user = response.user;
+        console.log("user", this.user);
+
+        // if (!response.ok) throw new Error(response.error);
+        // Set response onto search_result obj of this vue component for auto UI update
+        // Remove loader once search result is received
+        this.searching = false;
+      } catch (error) {
+        this.searching = false;
+        console.error(error);
+        alert("Something went wrong!");
+      }
+    },
   },
 };
 </script>

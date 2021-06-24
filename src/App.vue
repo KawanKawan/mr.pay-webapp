@@ -65,7 +65,7 @@
             </div>
 
             <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link"> Jessica </a>
+              <a class="navbar-link"> {{ this.user.name }} </a>
 
               <div class="navbar-dropdown">
                 <router-link to="/EditProfile">
@@ -136,10 +136,40 @@
 export default {
   data() {
     return {
+      searching: true,
+      user: {},
       data: {
         isShowModal: false,
       },
     };
+  },
+  created() {
+    this.getUser();
+  },
+  methods: {
+    async getUser() {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/user/12345678`,
+
+          {
+            method: "GET",
+          }
+        ).then((response) => response.json());
+        console.log("hahaha");
+        this.user = response.user;
+        console.log("user", this.user);
+
+        // if (!response.ok) throw new Error(response.error);
+        // Set response onto search_result obj of this vue component for auto UI update
+        // Remove loader once search result is received
+        this.searching = false;
+      } catch (error) {
+        this.searching = false;
+        console.error(error);
+        alert("Something went wrong!");
+      }
+    },
   },
 };
 </script>
