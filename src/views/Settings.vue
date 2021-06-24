@@ -58,6 +58,17 @@
         </div>
       </div>
 
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label has-text-left">Budget (monthly)</label>
+        </div>
+        <div class="field">
+          <p class="control">
+            <input class="input" type="text" placeholder="e.g. 500.25" />
+          </p>
+        </div>
+      </div>
+
       <div class="field is-grouped is-grouped-centered">
         <p class="control">
           <a class="button is-info"> Save </a>
