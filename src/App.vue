@@ -48,7 +48,7 @@
                     <hr class="dropdown-divider" />
                     <div class="dropdown-item">
                       <p>
-                        You still owe <strong>Ben</strong> for
+                        <strong>Ben</strong> created a new event
                         <strong>Dinner at Sentosa</strong>
                       </p>
                     </div>

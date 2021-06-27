@@ -70,6 +70,7 @@
                   }}<span
                     class="is-size-7 has-text-weight-light has-text-grey-dark"
                   >
+                    (this year)
                   </span>
                 </p>
               </div>
@@ -79,7 +80,7 @@
             <div class="notification">
               <div class="center-column">
                 <p class="subtitle is-size-6 has-text-weight-semibold">
-                  Total Spent
+                  Expenses
                 </p>
                 <p class="title is-size-3 has-text-info">
                   $ {{ this.budgetLeft()[0] }}
@@ -99,7 +100,7 @@
                   Expenses
                 </p>
                 <p class="title is-size-3 has-text-info">
-                  {{ this.payment.name }}
+                  $ {{ this.budgetLeft()[0] }}
                   <span
                     class="is-size-7 has-text-weight-light has-text-grey-dark"
                   >
@@ -340,7 +341,6 @@ export default {
       for (var i = 0; i < this.payment.length; i++) {
         if (this.payment[i].completed) {
           amount += this.payment[i].amount;
-          console.log(amount);
         }
       }
       total[0] = amount;
@@ -362,7 +362,6 @@ export default {
         ).then((response) => response.json());
         this.payment = response.payment;
         this.paymentToReceive = response.paymentToReceive;
-        console.log(this.paymentToReceive[3].payload);
         // if (!response.ok) throw new Error(response.error);
         // Set response onto search_result obj of this vue component for auto UI update
         // Remove loader once search result is received
@@ -382,9 +381,7 @@ export default {
             method: "GET",
           }
         ).then((response) => response.json());
-        console.log("hahaha");
         this.user = response.user;
-        console.log("user", this.user);
 
         // if (!response.ok) throw new Error(response.error);
         // Set response onto search_result obj of this vue component for auto UI update
