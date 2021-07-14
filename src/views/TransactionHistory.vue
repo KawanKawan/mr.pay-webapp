@@ -5,18 +5,9 @@
       <h2 class="subtitle is-4 has-text-weight-semibold has-text-black">
         Transaction History
       </h2>
-      <table class="table is-fullwidth">
-        <!-- <thead>
-                    <tr>
-                        <th><abbr title="Position">Pos</abbr></th>
-                        <th>Event</th>
-                        <th>Payer</th>
-                        <th>Payee</th>
-                        <th>Payer</th>
-                        <th>Payer</th>
-                    </tr>
-                </thead> -->
+      <b-table :data="this.allPayments" :columns="columns"></b-table>
 
+      <!-- <table class="table is-fullwidth">
         <tbody>
           <tr class="is-selected has-background-light has-text-grey-dark">
             <th>-$21.05</th>
@@ -79,7 +70,7 @@
             <td>by PayNow</td>
           </tr>
         </tbody>
-      </table>
+      </table> -->
       <nav class="pagination" role="navigation" aria-label="pagination">
         <a class="pagination-previous">Previous</a>
         <a class="pagination-next">Next page</a>
@@ -116,6 +107,84 @@
   </section>
   <!-- /.transaction history-->
 </template>
+<script>
+export default {
+  name: "TransactionHistory",
+
+  data() {
+    return {
+      searching: true,
+      allPayments: {},
+      paymentToPay: {},
+      paymentToReceive: {},
+      user: {},
+
+      columns: [
+        {
+          field: "amount",
+          label: "Amount",
+          centered: true,
+        },
+        {
+          field: "payee_name",
+          label: "Payee Name",
+          centered: true,
+        },
+        {
+          field: "payer_name",
+          label: "Payer Name",
+          centered: true,
+        },
+        {
+          field: "date",
+          label: "Date",
+          centered: true,
+        },
+        {
+          field: "event_name",
+          label: "Event",
+          centered: true,
+        },
+      ],
+    };
+  },
+  created() {
+    this.getPayment();
+  },
+  computed: {},
+  methods: {
+    // get all transactions made by the user
+    async getPayment() {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/payment/1078844444`,
+
+          {
+            method: "GET",
+          }
+        ).then((response) => response.json());
+        this.paymentToPay = response.paymentToPay;
+        this.paymentToReceive = response.paymentToReceive;
+        this.allPayments = response.paymentToPay;
+
+        // to concat 2 arrays (paymentToPay and paymentToReceive) to get transactions involving user
+        this.allPayments.push.apply(this.allPayments, this.paymentToReceive);
+
+        // console.log("pay", this.paymentToPay, this.paymentToReceive);
+        // console.log("hey", this.allPayments);
+        // if (!response.ok) throw new Error(response.error);
+        // Set response onto search_result obj of this vue component for auto UI update
+        // Remove loader once search result is received
+        this.searching = false;
+      } catch (error) {
+        this.searching = false;
+        console.error(error);
+        alert("Something went wrong!");
+      }
+    },
+  },
+};
+</script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
@@ -142,12 +211,3 @@ li {
   }
 }
 </style>
-
-<script>
-// @ is an alias to /src
-
-export default {
-  name: "TransactionHistory",
-  components: {},
-};
-</script>
