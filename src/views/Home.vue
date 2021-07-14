@@ -66,7 +66,7 @@
                   Total transactions
                 </p>
                 <p class="title is-size-3 has-text-info">
-                  {{ this.payment.length + this.paymentToReceive.length
+                  {{ this.allPayments.length
                   }}<span
                     class="is-size-7 has-text-weight-light has-text-grey-dark"
                   >
@@ -121,19 +121,8 @@
         <h2 class="subtitle is-4 has-text-weight-semibold has-text-black">
           Transaction History
         </h2>
-        <table class="table is-fullwidth">
-          <!-- <thead>
-                    <tr>
-                        <th><abbr title="Position">Pos</abbr></th>
-                        <th>Event</th>
-                        
-                        <th>Payer</th>
-                        <th>Payee</th>
-                        <th>Payer</th>
-                        <th>Payer</th>
-                    </tr>
-                </thead> -->
-
+        <b-table :data="this.allPayments" :columns="columns"></b-table>
+        <!-- <table class="table is-fullwidth">
           <tbody>
             <tr class="is-selected has-background-light has-text-grey-dark">
               <th>-$21.05</th>
@@ -172,7 +161,7 @@
               <td>by PayNow</td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
         <div class="has-text-centered">
           <router-link to="/TransactionHistory"
             ><a
@@ -261,9 +250,38 @@ export default {
   data() {
     return {
       searching: true,
-      payment: {},
+      allPayments: {},
+      paymentToPay: {},
       paymentToReceive: {},
       user: {},
+
+      columns: [
+        {
+          field: "amount",
+          label: "Amount",
+          centered: true,
+        },
+        {
+          field: "payee_name",
+          label: "Payee Name",
+          centered: true,
+        },
+        {
+          field: "payer_name",
+          label: "Payer Name",
+          centered: true,
+        },
+        {
+          field: "date",
+          label: "Date",
+          centered: true,
+        },
+        {
+          field: "event_name",
+          label: "Event",
+          centered: true,
+        },
+      ],
       data: {
         labels: [
           "Jan",
@@ -317,6 +335,7 @@ export default {
     },
   },
   methods: {
+    // to get all the payments that user's friends still owe the user
     paymentNotReceived() {
       var total = 0;
       for (var i = 0; i < this.paymentToReceive.length; i++) {
@@ -326,21 +345,23 @@ export default {
       }
       return total;
     },
+    // to get the number of people that user still owes
     peopleOwed() {
       var total = 0;
-      for (var i = 0; i < this.payment.length; i++) {
-        if (!this.payment[i].completed) {
+      for (var i = 0; i < this.paymentToPay.length; i++) {
+        if (!this.paymentToPay[i].completed) {
           total++;
         }
       }
       return total;
     },
+    // to get the amount user has left for the month (depends on the budget set)
     budgetLeft() {
       var amount = 0;
       var total = [];
-      for (var i = 0; i < this.payment.length; i++) {
-        if (this.payment[i].completed) {
-          amount += this.payment[i].amount;
+      for (var i = 0; i < this.paymentToPay.length; i++) {
+        if (this.paymentToPay[i].completed) {
+          amount += this.paymentToPay[i].amount;
         }
       }
       total[0] = amount;
@@ -351,6 +372,7 @@ export default {
       }
       return total;
     },
+    // get all transactions made by the user
     async getPayment() {
       try {
         const response = await fetch(
@@ -360,8 +382,15 @@ export default {
             method: "GET",
           }
         ).then((response) => response.json());
-        this.payment = response.payment;
+        this.paymentToPay = response.paymentToPay;
         this.paymentToReceive = response.paymentToReceive;
+        this.allPayments = response.paymentToPay;
+
+        // to concat 2 arrays (paymentToPay and paymentToReceive) to get transactions involving user
+        this.allPayments.push.apply(this.allPayments, this.paymentToReceive);
+
+        // console.log("pay", this.paymentToPay, this.paymentToReceive);
+        // console.log("hey", this.allPayments);
         // if (!response.ok) throw new Error(response.error);
         // Set response onto search_result obj of this vue component for auto UI update
         // Remove loader once search result is received
@@ -372,6 +401,7 @@ export default {
         alert("Something went wrong!");
       }
     },
+    // get user details
     async getUser() {
       try {
         const response = await fetch(

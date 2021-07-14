@@ -7,6 +7,11 @@ import "firebase/auth";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 
+import Buefy from "buefy";
+import "buefy/dist/buefy.css";
+
+Vue.use(Buefy);
+
 Vue.config.productionTip = false;
 require("@/assets/main.scss");
 
