@@ -390,7 +390,7 @@ export default {
         this.allPayments.push.apply(this.allPayments, this.paymentToReceive);
 
         // console.log("pay", this.paymentToPay, this.paymentToReceive);
-        // console.log("hey", this.allPayments);
+        console.log("hey", this.allPayments);
         // if (!response.ok) throw new Error(response.error);
         // Set response onto search_result obj of this vue component for auto UI update
         // Remove loader once search result is received
