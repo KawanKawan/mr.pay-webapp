@@ -156,7 +156,6 @@ export default {
             method: "GET",
           }
         ).then((response) => response.json());
-        console.log("hahaha");
         this.user = response.user;
         console.log("user", this.user);
 

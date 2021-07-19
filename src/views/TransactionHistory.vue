@@ -5,7 +5,11 @@
       <h2 class="subtitle is-4 has-text-weight-semibold has-text-black">
         Transaction History
       </h2>
-      <b-table :data="this.allPayments" :columns="columns"></b-table>
+      <b-table :data="this.allPayments" :columns="columns">
+        <!-- <b-table-column field="payer_name" label="Last Name" sortable>
+          {{ payer_name }}
+        </b-table-column> -->
+      </b-table>
     </div>
   </section>
   <!-- /.transaction history-->
@@ -17,8 +21,8 @@ export default {
   data() {
     return {
       searching: true,
-      allPayments: {},
-      allPaymentss: [],
+      allPayments: [],
+      allPyamentss: {},
       paymentToPay: {},
       paymentToReceive: {},
       user: {},
@@ -28,25 +32,31 @@ export default {
           field: "amount",
           label: "Amount",
           centered: true,
+          sortable: true,
+          class: "classObject",
         },
         {
           field: "payee_name",
           label: "Payee Name",
+          sortable: true,
           centered: true,
         },
         {
           field: "payer_name",
           label: "Payer Name",
+          sortable: true,
           centered: true,
         },
         {
           field: "date",
           label: "Date",
+          sortable: true,
           centered: true,
         },
         {
           field: "event_name",
           label: "Event",
+          sortable: true,
           centered: true,
         },
       ],
@@ -54,9 +64,22 @@ export default {
   },
   created() {
     this.getPayment();
+    this.getPaymentDates();
   },
   computed: {},
   methods: {
+    getPaymentDates() {
+      console.log("test pay", this.allPayments[1]);
+      // var i;
+      // for (i = 0; i < this.allPayments.length; i++) {
+
+      // }
+    },
+    classObject(cellValue) {
+      return {
+        selected: cellValue === "17" ? true : false,
+      };
+    },
     // get all transactions made by the user
     async getPayment() {
       try {
@@ -69,17 +92,32 @@ export default {
         ).then((response) => response.json());
         this.paymentToPay = response.paymentToPay;
         this.paymentToReceive = response.paymentToReceive;
-        this.allPayments = response.paymentToPay;
+        this.allPaymentss = response.paymentToPay;
 
         // to concat 2 arrays (paymentToPay and paymentToReceive) to get transactions involving user
-        this.allPayments.push.apply(this.allPayments, this.paymentToReceive);
-        this.allPaymentss = Object.values(this.allPayments);
+        this.allPaymentss.push.apply(this.allPaymentss, this.paymentToReceive);
+        this.allPayments = Object.values(this.allPaymentss);
 
-        // console.log("pay", this.paymentToPay, this.paymentToReceive);
-        console.log("hey", this.allPaymentss);
-        // if (!response.ok) throw new Error(response.error);
-        // Set response onto search_result obj of this vue component for auto UI update
-        // Remove loader once search result is received
+        // function to convet epoch time to normal local date and format it
+        for (var j = 0; j < this.allPayments.length; j++) {
+          var date = this.allPayments[j].date;
+          // has to times 1000 cause it's in seconds
+          var d = new Date(date._seconds * 1000);
+
+          // formatting to dd/mm/yyyy
+          var dd = d.getDate();
+          var mm = d.getMonth() + 1;
+          var yyyy = d.getFullYear();
+          if (dd < 10) {
+            dd = "0" + dd;
+          }
+          if (mm < 10) {
+            mm = "0" + mm;
+          }
+          var dateFormatted = dd + "/" + mm + "/" + yyyy;
+          this.allPayments[j].date = dateFormatted;
+        }
+
         this.searching = false;
       } catch (error) {
         this.searching = false;

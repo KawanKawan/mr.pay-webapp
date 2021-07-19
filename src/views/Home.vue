@@ -250,7 +250,8 @@ export default {
   data() {
     return {
       searching: true,
-      allPayments: {},
+      allPayments: [],
+      allPyamentss: {},
       paymentToPay: {},
       paymentToReceive: {},
       user: {},
@@ -384,16 +385,32 @@ export default {
         ).then((response) => response.json());
         this.paymentToPay = response.paymentToPay;
         this.paymentToReceive = response.paymentToReceive;
-        this.allPayments = response.paymentToPay;
+        this.allPaymentss = response.paymentToPay;
 
         // to concat 2 arrays (paymentToPay and paymentToReceive) to get transactions involving user
-        this.allPayments.push.apply(this.allPayments, this.paymentToReceive);
+        this.allPaymentss.push.apply(this.allPaymentss, this.paymentToReceive);
+        this.allPayments = Object.values(this.allPaymentss);
 
-        // console.log("pay", this.paymentToPay, this.paymentToReceive);
-        console.log("hey", this.allPayments);
-        // if (!response.ok) throw new Error(response.error);
-        // Set response onto search_result obj of this vue component for auto UI update
-        // Remove loader once search result is received
+        // function to convet epoch time to normal local date and format it
+        for (var j = 0; j < this.allPayments.length; j++) {
+          var date = this.allPayments[j].date;
+          // has to times 1000 cause it's in seconds
+          var d = new Date(date._seconds * 1000);
+
+          // formatting to dd/mm/yyyy
+          var dd = d.getDate();
+          var mm = d.getMonth() + 1;
+          var yyyy = d.getFullYear();
+          if (dd < 10) {
+            dd = "0" + dd;
+          }
+          if (mm < 10) {
+            mm = "0" + mm;
+          }
+          var dateFormatted = dd + "/" + mm + "/" + yyyy;
+          this.allPayments[j].date = dateFormatted;
+        }
+
         this.searching = false;
       } catch (error) {
         this.searching = false;
