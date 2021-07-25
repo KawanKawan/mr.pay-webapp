@@ -20,66 +20,42 @@
           </div>
         </div>
 
-        <div class="field">
-          <label class="label">Custom Message</label>
-          <div class="control">
-            <textarea
-              class="textarea has-fixed-size is-info"
-              placeholder="Hii, do not forget to transfer me!"
-            ></textarea>
-          </div>
-        </div>
+        <!-- <b-field label="Required">
+          <b-select required>
+            <option value="PayNow" :selected="isPayNow">PayNow</option>
+            <option value="PayLah!" :selected="isPayLah">PayLah!</option>
+            <option value="Google Pay" :selected="isGoogle">Google Pay</option>
+          </b-select>
+        </b-field> -->
+
+        <b-field label="Message">
+          <b-input
+            maxlength="100"
+            type="textarea"
+            v-model="userMessage"
+          ></b-input>
+        </b-field>
 
         <div class="field is-grouped">
           <div class="control">
-            <button class="button is-info is-outlined" data-target="#modal">
+            <button
+              class="button is-info is-outlined"
+              @click="submitModal = true"
+            >
               Submit
             </button>
           </div>
-          <div id="modal" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-content">
-              <div class="box">
-                <article class="media">
-                  <div class="media-left">
-                    <figure class="image is-64x64">
-                      <img
-                        src="https://www.tutorialspoint.com/bootstrap/images/64.jpg"
-                        alt="Image"
-                      />
-                    </figure>
-                  </div>
-                  <div class="media-content">
-                    <div class="content">
-                      <p>
-                        <strong>Will Smith</strong>
-                        <small>@wsmith</small>
-                        <small>31m</small>
-                        <br />
-                        This is simple text. This is simple text. This is simple
-                        text. This is simple text.
-                      </p>
-                    </div>
-                    <nav class="level">
-                      <div class="level-left">
-                        <a class="level-item">
-                          <span class="icon is-small">
-                            <i class="fa fa-reply"></i>
-                          </span>
-                        </a>
-                        <a class="level-item">
-                          <span class="icon is-small">
-                            <i class="fa fa-retweet"></i>
-                          </span>
-                        </a>
-                      </div>
-                    </nav>
-                  </div>
-                </article>
+          <b-modal v-model="submitModal" :width="400">
+            <div class="card">
+              <div class="card-content">
+                <p class="is-size-4">Confirm all changes made?</p>
+                <p class="is-size-6">click outside the box to cancel</p>
+                <!-- <b-button label="Cancel" @click="$emit('close')" /> -->
+                <b-button style="padding-top: 2" label="Confirm" />
               </div>
             </div>
-            <button class="modal-close is-large" aria-label="close"></button>
-          </div>
+          </b-modal>
+
           <div class="control">
             <router-link to="/">
               <a class="button is-info is-outlined">Cancel</a>
@@ -92,8 +68,51 @@
   <!-- /.form -->
 </template>
 
+<script>
+export default {
+  name: "EditProfile",
+  data() {
+    return {
+      submitModal: false,
+      userMessage: "",
+      dd: "PayLah",
+      isPayNow: false,
+      isPayLah: true,
+      isGoogle: false,
+    };
+  },
+  created() {
+    this.getUser();
+  },
+  methods: {
+    // get user details (custom message and payment method)
+    async getUser() {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/user/1078844444`,
+
+          {
+            method: "GET",
+          }
+        ).then((response) => response.json());
+        this.userMessage = response.user.message;
+
+        // if (!response.ok) throw new Error(response.error);
+        // Set response onto search_result obj of this vue component for auto UI update
+        // Remove loader once search result is received
+        this.searching = false;
+      } catch (error) {
+        this.searching = false;
+        console.error(error);
+        alert("Something went wrong!");
+      }
+    },
+  },
+};
+</script>
+
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 h3 {
   margin: 40px 0 0;
 }
@@ -124,13 +143,7 @@ a {
   display: flex;
   flex-direction: column;
 }
+.textarea {
+  resize: none !important;
+}
 </style>
-
-<script>
-// @ is an alias to /src
-
-export default {
-  name: "EditProfile",
-  components: {},
-};
-</script>

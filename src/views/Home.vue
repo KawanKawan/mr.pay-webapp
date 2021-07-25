@@ -122,46 +122,7 @@
           Transaction History
         </h2>
         <b-table :data="this.allPayments" :columns="columns"></b-table>
-        <!-- <table class="table is-fullwidth">
-          <tbody>
-            <tr class="is-selected has-background-light has-text-grey-dark">
-              <th>-$21.05</th>
-              <td><strong>Jessica</strong><br />Lunch at Sentosa</td>
-              <td>06/05/2021</td>
-              <td>by PayNow</td>
-            </tr>
-            <tr class="is-selected has-background-light has-text-grey-dark">
-              <th>-$75.05</th>
-              <td><strong>Bob</strong><br />Brunch at Orchard</td>
-              <td>06/04/2021</td>
-              <td>by PayNow</td>
-            </tr>
-            <tr>
-              <th>$59.99</th>
-              <td><strong>Tan</strong><br />Wild Wild West</td>
-              <td>06/12/2020</td>
-              <td>by PayNow</td>
-            </tr>
-            <tr>
-              <th>$92.00</th>
-              <td><strong>Kate</strong><br />Hiking day</td>
-              <td>04/12/2020</td>
-              <td>by PayLah!</td>
-            </tr>
-            <tr class="is-selected has-background-light has-text-grey-dark">
-              <th>-$20.40</th>
-              <td><strong>Smith</strong><br />Dinner at Bugis</td>
-              <td>11/08/2020</td>
-              <td>by PayPal</td>
-            </tr>
-            <tr>
-              <th>$45.87</th>
-              <td><strong>Jane</strong><br />Gardens by the Bay</td>
-              <td>02/02/2020</td>
-              <td>by PayNow</td>
-            </tr>
-          </tbody>
-        </table> -->
+
         <div class="has-text-centered">
           <router-link to="/TransactionHistory"
             ><a
@@ -251,7 +212,7 @@ export default {
     return {
       searching: true,
       allPayments: [],
-      allPyamentss: {},
+      allPaymentss: {},
       paymentToPay: {},
       paymentToReceive: {},
       user: {},

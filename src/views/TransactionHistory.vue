@@ -64,22 +64,9 @@ export default {
   },
   created() {
     this.getPayment();
-    this.getPaymentDates();
   },
   computed: {},
   methods: {
-    getPaymentDates() {
-      console.log("test pay", this.allPayments[1]);
-      // var i;
-      // for (i = 0; i < this.allPayments.length; i++) {
-
-      // }
-    },
-    classObject(cellValue) {
-      return {
-        selected: cellValue === "17" ? true : false,
-      };
-    },
     // get all transactions made by the user
     async getPayment() {
       try {
@@ -101,6 +88,7 @@ export default {
         // function to convet epoch time to normal local date and format it
         for (var j = 0; j < this.allPayments.length; j++) {
           var date = this.allPayments[j].date;
+          console.log(this.allPayments[j]);
           // has to times 1000 cause it's in seconds
           var d = new Date(date._seconds * 1000);
 
